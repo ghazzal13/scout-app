@@ -9,6 +9,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  var x = 200 + 360;
+  print(x);
   runApp(const MyApp());
 }
 
