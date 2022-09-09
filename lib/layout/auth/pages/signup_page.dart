@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:scout/layout/auth/pages/login_page.dart';
+import 'package:scout/layout/pages/layout_page.dart';
 
 import '../widgets/text_feild.dart';
 
@@ -32,6 +35,57 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _address = TextEditingController();
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future createUser({
+    required String name,
+    required String email,
+    required String address,
+  }) async {
+    Map<String, dynamic> user = {
+      'image': 'https://i.stack.imgur.com/l60Hf.png',
+      'uid': _auth.currentUser!.uid,
+      'name': name,
+      'email': email,
+      'address': address,
+    };
+    await _firestore.collection("users").doc(_auth.currentUser!.uid).set(user);
+  }
+
+  String messageEmail = '/';
+
+  void signUpUser({email, password}) async {
+    try {
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      )
+          .then((value) {
+        createUser(
+          name: _name.text,
+          email: _email.text,
+          address: _address.text,
+        );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const LayoutPage()),
+            (route) => false);
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        setState(() {
+          messageEmail = 'The account already exists for that email.';
+        });
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,25 +151,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                       prefix: Icons.account_circle_outlined,
                                       textInputAction: TextInputAction.next,
                                     ),
-
-                                    // component(
-                                    //   Icons.account_circle_outlined,
-                                    //   'User name...',
-                                    //   false,
-                                    //   false,
-                                    //   context,
-                                    //   _name,
-                                    //   ValidationBuilder(
-                                    //           requiredMessage:
-                                    //               'can not be emity')
-                                    //       .add((_) {
-                                    //     // if (messagePassword != '/') {
-                                    //     //   return messagePassword;
-                                    //     // }
-                                    //     return null;
-                                    //   }).build(),
-                                    // ),
-
                                     component(context,
                                         controller: _email,
                                         type: TextInputType.emailAddress,
@@ -127,47 +162,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                         hintText: 'Email...',
                                         prefix: Icons.email_outlined,
                                         textInputAction: TextInputAction.next),
-                                    // component(
-                                    //   Icons.email_outlined,
-                                    //   'Email...',
-                                    //   false,
-                                    //   true,
-                                    //   context,
-                                    //   _email,
-                                    //   ValidationBuilder(
-                                    //           requiredMessage:
-                                    //               'can not be emity')
-                                    //       .email()
-                                    //       .add((_) {
-                                    //     return null;
-                                    //   }).build(),
-                                    // ),
                                     component(context,
                                         controller: _password,
                                         type: TextInputType.text,
                                         validate: ValidationBuilder(
                                                 requiredMessage:
                                                     'can not be emity')
-                                            .email()
                                             .build(),
                                         hintText: 'Password...',
                                         prefix: Icons.lock_outline,
                                         textInputAction: TextInputAction.next),
-                                    // component(
-                                    //   Icons.lock_outline,
-                                    //   'Password...',
-                                    //   true,
-                                    //   false,
-                                    //   context,
-                                    //   _password,
-                                    //   ValidationBuilder(
-                                    //           requiredMessage:
-                                    //               'can not be emity')
-                                    //       .minLength(6)
-                                    //       .add((_) {
-                                    //     return null;
-                                    //   }).build(),
-                                    // ),
                                     component(
                                       context,
                                       controller: _address,
@@ -180,20 +184,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                       prefix: Icons.place_outlined,
                                       textInputAction: TextInputAction.done,
                                     ),
-                                    // component(
-                                    //   Icons.place_outlined,
-                                    //   'Address...',
-                                    //   false,
-                                    //   false,
-                                    //   context,
-                                    //   _address,
-                                    //   ValidationBuilder(
-                                    //           requiredMessage:
-                                    //               'can not be emity')
-                                    //       .add((_) {
-                                    //     return null;
-                                    //   }).build(),
-                                    // ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -233,7 +223,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: size.width * .3),
+                                    SizedBox(height: size.width * .2),
                                     InkWell(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
@@ -242,7 +232,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Fluttertoast.showToast(
                                           msg: 'Sign-Up button pressed',
                                         );
-                                        if (formkey.currentState!.validate()) {}
+                                        if (formkey.currentState!.validate()) {
+                                          signUpUser(
+                                              email: _email.text,
+                                              password: _password.text);
+                                        }
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(

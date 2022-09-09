@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:scout/layout/auth/pages/signup_page.dart';
+import 'package:scout/layout/pages/layout_page.dart';
+import 'package:scout/layout/widgets/reuse_widget.dart';
 
 import '../widgets/text_feild.dart';
 
@@ -32,6 +35,33 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _password = TextEditingController();
 
   bool isPassword = true;
+
+  String messageEmail = '/';
+  String sss = '/';
+  String messagePassword = '/';
+  Future<String> loginUser({email, password}) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      return "done";
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        messageEmail = 'No user found for that email.';
+
+        return "No user found for that email.";
+      } else if (e.code == 'wrong-password') {
+        setState(() {
+          messagePassword = 'Wrong password provided for that user.';
+        });
+        return "Wrong password provided for that user.";
+      } else {
+        return "Something is Wrong plase try later.";
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +122,15 @@ class _LoginPageState extends State<LoginPage> {
                                                 requiredMessage:
                                                     'can not be emity')
                                             .email()
-                                            .build(),
+                                            .add((_) {
+                                          if (messageEmail != '/') {
+                                            return messageEmail;
+                                          }
+                                          return null;
+                                        }).build(),
                                         hintText: 'Email...',
                                         prefix: Icons.email_outlined,
                                         textInputAction: TextInputAction.next),
-
                                     component(
                                       context,
                                       isPassword: isPassword,
@@ -106,7 +140,12 @@ class _LoginPageState extends State<LoginPage> {
                                               requiredMessage:
                                                   'can not be emity')
                                           .minLength(6)
-                                          .build(),
+                                          .add((_) {
+                                        if (messagePassword != '/') {
+                                          return messagePassword;
+                                        }
+                                        return null;
+                                      }).build(),
                                       hintText: 'Password...',
                                       prefix: Icons.lock_outline,
                                       suffix: isPassword != true
@@ -133,19 +172,6 @@ class _LoginPageState extends State<LoginPage> {
                                                     .withOpacity(.9),
                                               )),
                                     ),
-                                    // component(
-                                    //   Icons.lock_outline,
-                                    //   'Password...',
-                                    //   true,
-                                    //   false,
-                                    //   context,
-                                    //   _password,
-                                    //   ValidationBuilder(
-                                    //           requiredMessage:
-                                    //               'can not be emity')
-                                    //       .minLength(6)
-                                    //        .build(),
-                                    // ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -185,16 +211,50 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: size.width * .3),
+                                    SizedBox(height: size.width * .2),
                                     InkWell(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
-                                      onTap: () {
+                                      onTap: () async {
                                         HapticFeedback.lightImpact();
                                         Fluttertoast.showToast(
                                           msg: 'Sign-In button pressed',
                                         );
                                         if (formkey.currentState!.validate()) {}
+
+                                        messageEmail = '/';
+
+                                        messagePassword = '/';
+                                        if (formkey.currentState!.validate()) {
+                                          sss = await loginUser(
+                                              email: _email.text,
+                                              password: _password.text);
+                                          if (sss == "done") {
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const LayoutPage()),
+                                                    (route) => false);
+                                          } else if (sss ==
+                                              "No user found for that email.") {
+                                            setState(() {
+                                              messageEmail =
+                                                  "No user found for that email.";
+                                              formkey.currentState!.validate();
+                                            });
+                                          } else if (sss ==
+                                              "Wrong password provided for that user.") {
+                                            setState(() {
+                                              messagePassword =
+                                                  "Wrong password provided for that user.";
+                                              formkey.currentState!.validate();
+                                            });
+                                          } else {
+                                            showSnackBar(context,
+                                                'Something is wrong plase try later');
+                                          }
+                                        }
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(
