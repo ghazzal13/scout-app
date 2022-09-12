@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:scout/cubit/cubit.dart';
 import 'package:scout/cubit/player_model.dart';
+import 'package:scout/layout/pages/player_details.dart';
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({Key? key}) : super(key: key);
@@ -34,7 +35,16 @@ class _PlayerPageState extends State<PlayerPage> {
 }
 
 Widget buildItem(PlayersModel items, context) => InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PlayerDetailsPage(
+              player: items,
+            ),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(

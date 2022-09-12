@@ -14,9 +14,9 @@ class _AttackLineState extends State<AttackLine> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        playerContainer('LF', MediaQuery.of(context).size.width * .25),
+        playerContainer('LWF', MediaQuery.of(context).size.width * .25),
         playerContainer('CF', MediaQuery.of(context).size.width * .30),
-        playerContainer('RF', MediaQuery.of(context).size.width * .25),
+        playerContainer('RWF', MediaQuery.of(context).size.width * .25),
       ],
     );
   }
