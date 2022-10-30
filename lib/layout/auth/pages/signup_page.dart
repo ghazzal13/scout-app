@@ -1,13 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scout/layout/auth/pages/login_page.dart';
+import 'package:scout/layout/auth/widgets/method.dart';
 import 'package:scout/layout/pages/layout_page.dart';
 
 import '../widgets/text_feild.dart';
@@ -36,24 +36,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _address = TextEditingController();
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future createUser({
-    required String name,
-    required String email,
-    required String address,
-  }) async {
-    Map<String, dynamic> user = {
-      'image': 'https://i.stack.imgur.com/l60Hf.png',
-      'uid': _auth.currentUser!.uid,
-      'name': name,
-      'email': email,
-      'address': address,
-    };
-    await _firestore.collection("users").doc(_auth.currentUser!.uid).set(user);
-  }
 
   String messageEmail = '/';
 
@@ -115,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: SizedBox(),
                         ),
                         Expanded(
-                          flex: 6,
+                          flex: 7,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(30),
                             child: BackdropFilter(
@@ -185,32 +167,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                       prefix: Icons.place_outlined,
                                       textInputAction: TextInputAction.done,
                                     ),
+                                    SizedBox(height: size.width * .01),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            text: 'Sign Up With Google',
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                HapticFeedback.lightImpact();
-                                                Fluttertoast.showToast(
-                                                  msg:
-                                                      'Forgotten password! button pressed',
-                                                );
-                                                signInWithGoogle().then(
-                                                    (value) => Navigator.of(
-                                                            context)
-                                                        .push(MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                const LayoutPage())));
-                                              },
-                                          ),
-                                        ),
                                         RichText(
                                           text: TextSpan(
                                             text: 'Sign in instead',
@@ -230,7 +191,33 @@ class _SignUpPageState extends State<SignUpPage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: size.width * .2),
+                                    SizedBox(height: size.width * .01),
+                                    SignInButton(
+                                      text: "Sign Up with google",
+                                      Buttons.Google,
+                                      onPressed: () {
+                                        HapticFeedback.lightImpact();
+
+                                        signInWithGoogle().then(
+                                          (value) => Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LayoutPage()),
+                                            (route) => false,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: size.width * .01),
+                                    SignInButton(
+                                      text: "Sign Up with Facebook",
+                                      Buttons.Facebook,
+                                      onPressed: () {
+                                        HapticFeedback.lightImpact();
+                                      },
+                                    ),
+                                    SizedBox(height: size.width * .1),
                                     InkWell(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
@@ -286,23 +273,5 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

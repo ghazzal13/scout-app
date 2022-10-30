@@ -37,7 +37,8 @@ class _LayoutPageState extends State<LayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('data'),
+        automaticallyImplyLeading: false,
+        title: const Text('  Data'),
         actions: [
           IconButton(
             onPressed: () {

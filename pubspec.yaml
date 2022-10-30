@@ -40,7 +40,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_signin_button: ^2.0.0
   flutter_staggered_animations: ^1.1.1
+  flutter_tags: ^0.4.9+1
   fluttertoast: ^8.0.9
   form_validation: ^2.1.0+11
   form_validator: ^1.0.2

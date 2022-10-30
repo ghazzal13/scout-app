@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:scout/layout/auth/pages/signup_page.dart';
+import 'package:scout/layout/auth/widgets/method.dart';
 import 'package:scout/layout/pages/layout_page.dart';
 import 'package:scout/layout/widgets/reuse_widget.dart';
 
@@ -211,7 +214,22 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: size.width * .2),
+                                    SignInButton(
+                                      Buttons.Google,
+                                      onPressed: () {
+                                        HapticFeedback.lightImpact();
+
+                                        signInWithGoogle().then(
+                                          (value) => Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LayoutPage()),
+                                            (route) => false,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                     InkWell(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
