@@ -1,8 +1,10 @@
+import 'package:animated_button/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:scout/cubit/cubit.dart';
 import 'package:scout/cubit/player_model.dart';
 import 'package:scout/layout/pages/player_details.dart';
+import 'package:scout/layout/widgets/player_widgets/tags.dart';
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({Key? key}) : super(key: key);
@@ -11,24 +13,106 @@ class PlayerPage extends StatefulWidget {
   State<PlayerPage> createState() => _PlayerPageState();
 }
 
-class _PlayerPageState extends State<PlayerPage> {
+class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     int itemCount = PlayersCubit.get(context).players.length;
     List<PlayersModel> items = PlayersCubit.get(context).players;
+    const Key centerKey = ValueKey<String>('bottom-sliver-list');
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: const Text("Go Back"),
       ),
       body: AnimationLimiter(
-        child: ListView.builder(
-            padding: EdgeInsets.all(w / 30),
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            itemCount: itemCount,
-            itemBuilder: (BuildContext context, int index) =>
-                buildItem(items[index], context)),
+        child: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) =>
+                      buildItem(items[index], context),
+                  childCount: itemCount),
+            ),
+          ],
+          // children: [
+          //   BuildtTags(),
+          //   SingleChildScrollView(
+          //     child: ListView.builder(
+          //         padding: EdgeInsets.all(w / 30),
+          //         physics: const BouncingScrollPhysics(
+          //             parent: AlwaysScrollableScrollPhysics()),
+          //         itemCount: itemCount,
+          //         itemBuilder: (BuildContext context, int index) =>
+          //             buildItem(items[index], context)),
+          //   ),
+          // ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => scaffoldKey.currentState
+            ?.showBottomSheet((ctx) => _buildBottomSheet(ctx)),
+        child: const Icon(
+          Icons.filter_list_rounded,
+          size: 40,
+        ),
+      ),
+    );
+  }
+
+  Container _buildBottomSheet(BuildContext context) {
+    return Container(
+      height: 500,
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.blue, width: 2.0),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            const Text(
+              'nationalete',
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              'age',
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              'foot',
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            buildtTags(),
+            AnimatedButton(
+              height: 60,
+              width: 120,
+              shadowDegree: ShadowDegree.light,
+              enabled: true,
+              shape: BoxShape.rectangle,
+              onPressed: () {},
+              child: const Text(
+                "Applay",
+                style: TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -85,6 +169,7 @@ Widget buildItem(PlayersModel items, context) => InkWell(
                       style: const TextStyle(
                         color: Colors.grey,
                       ),
+                      maxLines: 5,
                     ),
                   ],
                 ),
@@ -97,124 +182,3 @@ Widget buildItem(PlayersModel items, context) => InkWell(
         ),
       ),
     );
-
-class SlideAnimation3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Go Back"),
-      ),
-      body: AnimationLimiter(
-        child: ListView.builder(
-          padding: EdgeInsets.all(w / 30),
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          itemCount: 20,
-          itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
-              position: index,
-              delay: const Duration(milliseconds: 100),
-              child: SlideAnimation(
-                duration: const Duration(milliseconds: 2500),
-                curve: Curves.fastLinearToSlowEaseIn,
-                child: FadeInAnimation(
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  duration: const Duration(milliseconds: 2500),
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: w / 20),
-                    height: w / 4,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 40,
-                          spreadRadius: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-
-/*
-  {
-            //
-            //
-            //
-            //
-            return AnimationConfiguration.staggeredList(
-              position: index,
-              delay: const Duration(milliseconds: 200),
-              child: SlideAnimation(
-                duration: const Duration(milliseconds: 2500),
-                curve: Curves.fastLinearToSlowEaseIn,
-                child: FadeInAnimation(
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  duration: const Duration(milliseconds: 2500),
-                  child: Container(
-                    //
-                    //
-                    //
-                    //
-                    margin: EdgeInsets.only(bottom: w / 20),
-                    height: w / 3,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 40,
-                          spreadRadius: 10,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                          child: Column(
-                            children: const [
-                              Text('data'),
-                              Text('data'),
-                              Text('data'),
-                            ],
-                          ),
-                        ),
-                        const Spacer(
-                          flex: 1,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * .40,
-                          height: MediaQuery.of(context).size.width * .40,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                  'https://recentlyheard.com/wp-content/uploads/2020/04/Lionel-Messi.jpg',
-                                ),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-      
-
-      */

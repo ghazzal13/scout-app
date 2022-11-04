@@ -9,19 +9,21 @@ class PlayersCubit extends Cubit<PlayersStates> {
   static PlayersCubit get(context) => BlocProvider.of(context);
 
   late List<PlayersModel> players;
+  late List<PlayersModel> players2;
   void getAllPosts() async {
     players = [];
-    FirebaseFirestore.instance
-        .collection('players')
-        .snapshots()
-        .listen((event) {
-      for (var element in event.docs) {
-        players.add(PlayersModel.fromMap(
-          element.data(),
-        ));
-        print(element.data());
-      }
-    });
-    // return players;
+    FirebaseFirestore.instance.collection('players').snapshots().listen(
+      (event) {
+        for (var element in event.docs) {
+          players.add(PlayersModel.fromMap(
+            element.data(),
+          ));
+          print(element.data());
+        }
+      },
+    );
+    // players2 =
+    //     FirebaseFirestore.instance.collection('players') ;
+    // print(players2);
   }
 }
