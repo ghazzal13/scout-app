@@ -1,23 +1,31 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PlayersModel {
   final String? name;
 
   final String? id;
   final String? image;
-  final String? con;
-  final String? dis;
-  final String? pos;
-  final String? birthdate;
+  final String? country;
+  final String? description;
+  final String? position;
+  final String? foot;
+  final String? map;
+  final String? nation;
+  final Timestamp? birthday;
 
   const PlayersModel({
     required this.id,
-    required this.dis,
-    required this.pos,
-    required this.birthdate,
+    required this.description,
+    required this.position,
+    required this.birthday,
     required this.name,
     required this.image,
-    required this.con,
+    required this.foot,
+    required this.nation,
+    required this.country,
+    required this.map,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,10 +33,13 @@ class PlayersModel {
       'name': name,
       'id': id,
       'image': image,
-      'con': con,
-      'dis': dis,
-      'pos': pos,
-      'birthdate': birthdate,
+      'country': country,
+      'description': description,
+      'position': position,
+      'foot': foot,
+      'nation': nation,
+      'map': map,
+      'birthday': birthday,
     };
   }
 
@@ -37,10 +48,13 @@ class PlayersModel {
       name: map['name'],
       id: map['id'],
       image: map['image'],
-      con: map['con'],
-      dis: map['dis'],
-      pos: map['pos'],
-      birthdate: map['birthdate'],
+      country: map['country'],
+      description: map['description'],
+      position: map['position'],
+      foot: map['foot'],
+      nation: map['nation'],
+      birthday: map['birthday'],
+      map: map['map'],
     );
   }
 

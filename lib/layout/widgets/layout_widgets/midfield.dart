@@ -11,16 +11,9 @@ class MidfieldPleyers extends StatefulWidget {
 class _MidfieldPleyersState extends State<MidfieldPleyers> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 400,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          playerContainer('AMF', MediaQuery.of(context).size.width * .30),
-          playerContainer('CMF', MediaQuery.of(context).size.width * .30),
-          playerContainer('DMF', MediaQuery.of(context).size.width * .30),
-        ],
-      ),
-    );
+    return playerContainer('Midfielder',
+        width: MediaQuery.of(context).size.width * .60,
+        height: MediaQuery.of(context).size.height * .20,
+        position: 'Midfielder');
   }
 }

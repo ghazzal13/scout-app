@@ -35,6 +35,7 @@ class _LayoutPageState extends State<LayoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -53,11 +54,27 @@ class _LayoutPageState extends State<LayoutPage> {
           ),
         ],
       ),
-      body: Column(
-        children: const [
-          AttackLine(),
-          MidfieldPleyers(),
-          DefenseLine(),
+      body: Stack(
+        children: [
+          SizedBox(
+            height: size.height,
+            child: Image.asset(
+              'assets/images/ground_2.jpg',
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: const [
+                SizedBox(height: 5),
+                AttackLine(),
+                MidfieldPleyers(),
+                DefenseLine(),
+                SizedBox(height: 15),
+              ],
+            ),
+          ),
         ],
       ),
     );

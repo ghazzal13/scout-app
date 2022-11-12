@@ -29,63 +29,83 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
               height: 5,
             ),
+            Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: [
+                Align(
+                  alignment: AlignmentDirectional.topCenter,
+                  child: Container(
+                    height: 70.0,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(
+                          4.0,
+                        ),
+                        topRight: Radius.circular(
+                          4.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                CircleAvatar(
+                  radius: 52.0,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  child: CircleAvatar(
+                    radius: 50.0,
+                    backgroundImage: NetworkImage(player.image.toString()),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${player.name} ',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.teal[600],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '( ${player.position} )',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
             Container(
-              width: MediaQuery.of(context).size.width * 0.99,
-              height: 200,
+              width: MediaQuery.of(context).size.width * 0.90,
+              height: 250,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage('${player.image}'),
+                  image: NetworkImage('${player.map}'),
+                  fit: BoxFit.fitHeight,
                 ),
               ),
             ),
+            const SizedBox(height: 10),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
                   height: 5,
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      'Name: ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${player.name}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.teal[600],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      'position: ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${player.pos}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.teal,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
                 ),
                 Row(
                   children: [
@@ -97,7 +117,7 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                       ),
                     ),
                     Text(
-                      '${player.birthdate}',
+                      '${player.birthday!.toDate().difference(DateTime.now()).inDays ~/ -365}',
                       style: const TextStyle(
                         fontSize: 20,
                         color: Colors.teal,
@@ -105,6 +125,25 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                       ),
                     ),
                   ],
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Description : ',
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '${player.description}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const Text(
                   'Description:',
@@ -115,7 +154,7 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                 ),
                 SizedBox(
                   child: Text(
-                    '${player.dis}',
+                    '${player.description}',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.teal[600],

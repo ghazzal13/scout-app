@@ -9,21 +9,26 @@ class PlayersCubit extends Cubit<PlayersStates> {
   static PlayersCubit get(context) => BlocProvider.of(context);
 
   late List<PlayersModel> players;
-  late List<PlayersModel> players2;
-  void getAllPosts() async {
+  Future getAllPosts(String position) async {
+    emit(PlayersGetUserLoadingState());
     players = [];
-    FirebaseFirestore.instance.collection('players').snapshots().listen(
+    FirebaseFirestore.instance
+        .collection('players')
+        .where('type', isEqualTo: position)
+        .snapshots()
+        .listen(
       (event) {
         for (var element in event.docs) {
           players.add(PlayersModel.fromMap(
             element.data(),
           ));
-          print(element.data());
+          print('555555555555555555555555555555555555555555555555555555');
+          print(element.data()['name']);
         }
       },
-    );
-    // players2 =
-    //     FirebaseFirestore.instance.collection('players') ;
-    // print(players2);
+    ).onError((e) {
+      emit(PlayersGetUserErrorState(e.toString()));
+    });
+    emit(PlayersGetUserSuccessState());
   }
 }

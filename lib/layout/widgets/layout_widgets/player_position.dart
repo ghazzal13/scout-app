@@ -1,46 +1,36 @@
+import 'dart:ui';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:scout/layout/pages/players_page.dart';
+import 'package:scout/layout/pages/players_list_page.dart';
 
-Widget playerContainer(
-  String name,
-  var width,
-) =>
+Widget playerContainer(String name,
+        {var width, var height, required String position}) =>
     OpenContainer(
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 200),
         closedBuilder: (_, openContainer) {
-          return SizedBox(
-            height: width,
-            width: width,
-            child: TextButton(
-              onPressed: openContainer,
-              child: Text(
-                name,
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.black.withOpacity(0.8),
-                    fontWeight: FontWeight.bold),
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaY: 70, sigmaX: 50),
+            child: SizedBox(
+              height: height,
+              width: width,
+              child: TextButton(
+                onPressed: openContainer,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black.withOpacity(0.8),
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           );
         },
-        openColor: Colors.white,
         closedElevation: 10.0,
         closedShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
-        closedColor: Colors.white,
         openBuilder: (_, closeContainer) {
-          return const PlayerPage();
-
-          // return Scaffold(
-          //   appBar: AppBar(
-          //     backgroundColor: Colors.blue,
-          //     title: const Text('Go back'),
-          //     leading: IconButton(
-          //       onPressed: closeContainer,
-          //       icon: const Icon(Icons.arrow_back, color: Colors.white),
-          //     ),
-          //   ),
-          // );
+          return PlayerPage(position: position);
         });

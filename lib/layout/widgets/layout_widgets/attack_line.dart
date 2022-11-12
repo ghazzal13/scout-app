@@ -11,13 +11,9 @@ class AttackLine extends StatefulWidget {
 class _AttackLineState extends State<AttackLine> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        playerContainer('LWF', MediaQuery.of(context).size.width * .25),
-        playerContainer('CF', MediaQuery.of(context).size.width * .30),
-        playerContainer('RWF', MediaQuery.of(context).size.width * .25),
-      ],
-    );
+    return playerContainer('Forward',
+        width: MediaQuery.of(context).size.width * .8,
+        height: MediaQuery.of(context).size.height * .2,
+        position: 'Forward');
   }
 }

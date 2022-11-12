@@ -12,14 +12,9 @@ class _DefenseLineState extends State<DefenseLine> {
   @override
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        playerContainer('LB', MediaQuery.of(context).size.width * .22),
-        playerContainer('CB', MediaQuery.of(context).size.width * .22),
-        playerContainer('CB', MediaQuery.of(context).size.width * .22),
-        playerContainer('RB', MediaQuery.of(context).size.width * .22),
-      ],
-    );
+    return playerContainer('Defensive',
+        width: MediaQuery.of(context).size.width * .85,
+        height: MediaQuery.of(context).size.height * .20,
+        position: 'Defensive');
   }
 }
