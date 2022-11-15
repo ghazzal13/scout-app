@@ -36,7 +36,6 @@ class _OldPassWordState extends State<OldPassWord> {
       setState(() {
         isLogin = true;
       });
-      print(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         // print('Wrong password provided for that user.');

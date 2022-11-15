@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:scout/cubit/cubit.dart';
-import 'package:scout/cubit/player_model.dart';
+import 'package:scout/cubit/models/player_model.dart';
 import 'package:scout/cubit/states.dart';
 import 'package:scout/layout/pages/player_details.dart';
 import 'package:scout/layout/widgets/player_widgets/tages_data.dart';
+import 'package:scout/layout/widgets/reuse/loading_widget.dart';
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({Key? key, required this.position}) : super(key: key);
@@ -59,16 +60,14 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
     } else {
       _filter_list = PlayersCubit.get(context).players;
     }
-    print(_filter_list);
-    print('111111111111111111111111111111111111111');
+
     temp = _filter_list;
     if (nation == 'both') {
       _filter_list = temp;
     } else {
       _filter_list = temp.where((element) => element.nation == nation).toList();
     }
-    print(_filter_list);
-    print('22222222222222222222222222222222222222222222');
+
     temp = _filter_list;
 
     if (age == 50) {
@@ -76,13 +75,11 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
     } else {
       _filter_list = temp
           .where((element) =>
-              element.birthday!.toDate().difference(DateTime.now()).inDays /
+              element.birthday.toDate().difference(DateTime.now()).inDays /
                   -365 <
               age)
           .toList();
     }
-    print(_filter_list);
-    print('3333333333333333333333333333333333333333333');
     setState(() {
       _filter_list;
     });
@@ -104,41 +101,41 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PlayersCubit, PlayersStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
+      listener: (BuildContext context, PlayersStates state) {},
+      builder: (BuildContext context, PlayersStates state) {
         double w = MediaQuery.of(context).size.width;
 
         final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("Go Back"),
-          ),
-          body: (_filter_list.isEmpty)
-              ? Center(
-                  child: Column(
-                  children: const [
-                    Icon(Icons.data_array),
-                    Text('they no players data'),
-                  ],
-                ))
-              : ListView.builder(
-                  padding: EdgeInsets.all(w / 30),
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  itemCount: _filter_list.length,
-                  itemBuilder: (context, index) {
-                    return buildItem(_filter_list[index], context);
-                  }),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => scaffoldKey.currentState
-                ?.showBottomSheet((ctx) => _buildBottomSheet(ctx)),
-            child: const Icon(
-              Icons.filter_list_rounded,
-              size: 40,
+        if (state is PlayersGetUserLoadingState) {
+          return const LoadingWidget();
+        } else if (state is PlayersGetUserSuccessState) {
+          return Scaffold(
+            key: scaffoldKey,
+            appBar: AppBar(
+              title: const Text("Go Back"),
             ),
-          ),
-        );
+            body: ListView.builder(
+                padding: EdgeInsets.all(w / 30),
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemCount: state.x.length,
+                itemBuilder: (context, index) {
+                  return buildItem(state.x[index], context);
+                }),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => scaffoldKey.currentState
+                  ?.showBottomSheet((ctx) => _buildBottomSheet(ctx)),
+              child: const Icon(
+                Icons.filter_list_rounded,
+                size: 40,
+              ),
+            ),
+          );
+        } else if (state is PlayersGetUserErrorState) {
+          return const Text('mss');
+        }
+        return const Text('ccccccccccccccccccccccccccccccccc');
       },
     );
   }
@@ -167,18 +164,12 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
               onTap: (v) {
                 if (v.isEmpty) {
                   nation = 'both';
-
-                  print(nation);
                 } else {
                   if (v.length == 1) {
                     nation = v.cast<Chose>().elementAt(0).name;
-
-                    print(nation);
                   }
                   if (v.length > 1) {
                     nation = 'both';
-
-                    print(nation);
                   }
                 }
               },
@@ -200,18 +191,12 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
               onTap: (v) {
                 if (v.isEmpty) {
                   age = 50;
-
-                  print(age);
                 } else {
                   if (v.length == 1) {
                     age = v.cast<Chose>().elementAt(0).id;
-
-                    print(age);
                   }
                   if (v.length > 1) {
                     age = 30;
-
-                    print(age);
                   }
                 }
               },
@@ -233,18 +218,12 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
               onTap: (v) {
                 if (v.isEmpty) {
                   foot = 'both';
-
-                  print(foot);
                 } else {
                   if (v.length == 1) {
                     foot = v.cast<Chose>().elementAt(0).name;
-
-                    print(foot);
                   }
                   if (v.length > 1) {
                     foot = 'both';
-
-                    print(foot);
                   }
                 }
               },
@@ -263,8 +242,7 @@ class _PlayerPageState extends State<PlayerPage> with TickerProviderStateMixin {
                   setState(() {
                     filter();
                   });
-                  print('ddddddddddddddddddddddddddd');
-                  print(_filter_list);
+
                   Navigator.pop(context);
                 },
                 child: const Text(

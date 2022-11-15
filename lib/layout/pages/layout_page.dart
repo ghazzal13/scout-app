@@ -16,12 +16,7 @@ class LayoutPage extends StatefulWidget {
 
 class _LayoutPageState extends State<LayoutPage> {
   Future<void> netCheck() async {
-    print('''The statement 'this machine is connected to the Internet' is: ''');
     final bool isConnected = await InternetConnectionChecker().hasConnection;
-    // ignore: avoid_print
-    print(
-      isConnected.toString(),
-    );
     if (isConnected == false) {
       showSnackBar(context, 'You Don\'t Have Internet Connection');
     }

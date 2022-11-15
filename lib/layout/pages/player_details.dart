@@ -1,9 +1,9 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import 'package:scout/cubit/player_model.dart';
-import 'package:scout/layout/widgets/player_widgets/tages_data.dart';
+import 'package:scout/cubit/models/player_model.dart';
 
 class PlayerDetailsPage extends StatefulWidget {
   final PlayersModel player;
@@ -18,14 +18,17 @@ class PlayerDetailsPage extends StatefulWidget {
 }
 
 class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
-  List<TagesData> categoryTages = CategoryTages.all;
   PlayersModel player;
   _PlayerDetailsPageState({required this.player});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          '${player.name} ',
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -64,7 +67,6 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -88,13 +90,49 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            RichText(
+              text: TextSpan(
+                text: 'age: ',
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text:
+                        '${player.birthday.toDate().difference(DateTime.now()).inDays ~/ -365}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const TextSpan(
+                    text: ' years,',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                  TextSpan(
+                    text:
+                        '  ${DateFormat.yMd().format(player.birthday.toDate())} ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 5),
             Container(
               width: MediaQuery.of(context).size.width * 0.90,
               height: 250,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage('${player.map}'),
+                  image: NetworkImage(player.map),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -107,61 +145,23 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                 const SizedBox(
                   height: 5,
                 ),
-                Row(
-                  children: [
-                    const Text(
-                      'age: ',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '${player.birthday!.toDate().difference(DateTime.now()).inDays ~/ -365}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.teal,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
                 RichText(
                   text: TextSpan(
                     text: 'Description : ',
                     style: TextStyle(
-                      color: Colors.grey[800],
+                      color: Colors.grey[500],
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: '${player.description}',
+                        text: player.description,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
                     ],
-                  ),
-                ),
-                const Text(
-                  'Description:',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  child: Text(
-                    '${player.description}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.teal[600],
-                      fontWeight: FontWeight.w600,
-                    ),
-                    // maxLines: 5,
-                    // overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],

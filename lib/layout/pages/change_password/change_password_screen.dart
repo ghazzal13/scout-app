@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:scout/layout/auth/pages/login_page.dart';
 import 'package:scout/layout/pages/change_password/widgets/new_password.dart';
@@ -40,7 +39,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       setState(() {
         isLogin = true;
       });
-      print(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         // print('Wrong password provided for that user.');
@@ -59,7 +57,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               MaterialPageRoute(builder: (context) => const LoginPage()),
               (route) => false));
     }).catchError((error) {
-      print("Error $error");
       showSnackBar(context, '$error');
     });
   }

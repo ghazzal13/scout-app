@@ -39,8 +39,6 @@ class _NewPassWordState extends State<NewPassWord> {
               MaterialPageRoute(builder: (context) => const LoginPage()),
               (route) => false));
     }).catchError((error) {
-      print("Error $error");
-
       showToast(text: error, state: ToastStates.ERROR);
     });
   }
