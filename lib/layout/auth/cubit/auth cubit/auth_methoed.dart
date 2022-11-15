@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scout/layout/auth/cubit/states.dart';
-import 'package:scout/layout/auth/cubit/user.dart';
+import 'package:scout/layout/auth/cubit/auth%20cubit/states.dart';
+import 'package:scout/layout/auth/cubit/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
@@ -31,7 +31,6 @@ class AuthCubit extends Cubit<AuthStates> {
   UserModel userData = UserModel();
   void getUserData(id) {
     FirebaseFirestore.instance.collection("users").doc(id).get().then((value) {
-      print(value.data());
       userData = UserModel.fromMap(value.data());
     }).catchError((error) {});
     // return userData;
