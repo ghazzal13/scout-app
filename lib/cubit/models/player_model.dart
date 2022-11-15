@@ -5,15 +5,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PlayersModel {
   final String? name;
 
-  final String? id;
-  final String? image;
-  final String? country;
-  final String? description;
-  final String? position;
-  final String? foot;
-  final String? map;
-  final String? nation;
-  final Timestamp? birthday;
+  final String id;
+  final String image;
+  final String country;
+  final String description;
+  final String position;
+  final String foot;
+  final String map;
+  final String nation;
+  final Timestamp birthday;
 
   const PlayersModel({
     required this.id,
