@@ -33,7 +33,10 @@ dependencies:
   bloc: ^8.0.3
   cloud_firestore: ^3.1.18
   cupertino_icons: ^1.0.2
+  dartz: ^0.10.1
   data_connection_checker: ^0.3.4
+  equatable: ^2.0.5
+  filter_list: ^1.0.2
   firebase_auth: ^3.3.20
   firebase_core: ^1.21.1
   firebase_database: ^9.0.16
@@ -41,6 +44,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_launcher_icons: ^0.10.0
   flutter_signin_button: ^2.0.0
   flutter_staggered_animations: ^1.1.1
   flutter_tags: ^0.4.9+1
@@ -49,12 +53,20 @@ dependencies:
   form_validator: ^1.0.2
   google_sign_in: ^5.4.1
   internet_connection_checker: ^0.0.1+4
+  intl: ^0.17.0
+  multi_select_flutter: ^4.1.2
   shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/scout-1.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   uses-material-design: true
