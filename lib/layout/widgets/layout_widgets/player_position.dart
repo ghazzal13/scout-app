@@ -7,7 +7,7 @@ import 'package:scout/layout/pages/players_list_page.dart';
 Widget playerContainer(String name,
         {var width, var height, required String position}) =>
     OpenContainer(
-        transitionDuration: const Duration(milliseconds: 200),
+        transitionDuration: const Duration(milliseconds: 50),
         closedBuilder: (_, openContainer) {
           return BackdropFilter(
             filter: ImageFilter.blur(sigmaY: 70, sigmaX: 50),

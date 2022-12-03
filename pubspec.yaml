@@ -45,6 +45,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_launcher_icons: ^0.10.0
+  flutter_native_splash: ^2.2.14
   flutter_signin_button: ^2.0.0
   flutter_staggered_animations: ^1.1.1
   flutter_tags: ^0.4.9+1
@@ -55,12 +56,34 @@ dependencies:
   internet_connection_checker: ^0.0.1+4
   intl: ^0.17.0
   multi_select_flutter: ^4.1.2
+  provider: ^6.0.4
   shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
+flutter_native_splash:
+  android: true
+  ios: false
+  web: false
+
+  color: "#06446C  "
+
+  #color_dark: "#042a49"
+  background_image: "assets/images/background.png"
+  image: assets/images/scout-1.png
+  #branding_dark: assets/dart_dark.png
+  # Android 12 handles the splash screen differently than previous versions.  Please visit
+  # https://developer.android.com/guide/topics/ui/splash-screen
+  # Following are Android 12 specific parameter.
+  # android_12: false
+  #image_dark: assets/android12splash-invert.png
+  #color_dark: "#042a49"
+  #icon_background_color_dark: "#eeeeee"
+  # The android, ios and web parameters can be used to disable generating a splash screen on a given
+  # platform.
 
 flutter_icons:
   android: true

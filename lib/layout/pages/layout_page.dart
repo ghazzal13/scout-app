@@ -34,7 +34,7 @@ class _LayoutPageState extends State<LayoutPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('  Data'),
+        title: const Text('  Position'),
         actions: [
           IconButton(
             onPressed: () {
