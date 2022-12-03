@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class PlayersModel {
   final String? name;
 
@@ -13,7 +11,7 @@ class PlayersModel {
   final String foot;
   final String map;
   final String nation;
-  final Timestamp birthday;
+  final DateTime birthday;
 
   const PlayersModel({
     required this.id,
@@ -53,7 +51,7 @@ class PlayersModel {
       position: map['position'],
       foot: map['foot'],
       nation: map['nation'],
-      birthday: map['birthday'],
+      birthday: DateTime.parse(map['birthday'].toDate().toString()),
       map: map['map'],
     );
   }

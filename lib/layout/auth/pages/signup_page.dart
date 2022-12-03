@@ -63,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
           messageEmail = 'The account already exists for that email.';
         });
       }
-    } catch (e) {}
+    }
   }
 
   @override

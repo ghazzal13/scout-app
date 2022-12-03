@@ -101,7 +101,7 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                 children: <TextSpan>[
                   TextSpan(
                     text:
-                        '${player.birthday.toDate().difference(DateTime.now()).inDays ~/ -365}',
+                        '${player.birthday.difference(DateTime.now()).inDays ~/ -365}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -115,8 +115,7 @@ class _PlayerDetailsPageState extends State<PlayerDetailsPage> {
                     ),
                   ),
                   TextSpan(
-                    text:
-                        '  ${DateFormat.yMd().format(player.birthday.toDate())} ',
+                    text: '  ${DateFormat.yMd().format(player.birthday)} ',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.grey[600],
