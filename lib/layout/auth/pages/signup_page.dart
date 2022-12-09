@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:scout/layout/auth/pages/login_page.dart';
 import 'package:scout/layout/auth/widgets/method.dart';
@@ -206,22 +205,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                       },
                                     ),
                                     SizedBox(height: size.width * .01),
-                                    SignInButton(
-                                      text: "Sign Up with Facebook",
-                                      Buttons.Facebook,
-                                      onPressed: () {
-                                        HapticFeedback.lightImpact();
-                                      },
-                                    ),
-                                    SizedBox(height: size.width * .1),
                                     InkWell(
                                       splashColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () {
                                         HapticFeedback.lightImpact();
-                                        Fluttertoast.showToast(
-                                          msg: 'Sign-Up button pressed',
-                                        );
+
                                         if (formkey.currentState!.validate()) {
                                           signUpUser(
                                               email: _email.text,

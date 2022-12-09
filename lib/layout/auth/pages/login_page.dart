@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_validator/form_validator.dart';
 
 import 'package:scout/layout/auth/pages/signup_page.dart';
@@ -183,22 +182,6 @@ class _LoginPageState extends State<LoginPage> {
                                       children: [
                                         RichText(
                                           text: TextSpan(
-                                            text: 'Forgotten password!',
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                HapticFeedback.lightImpact();
-                                                Fluttertoast.showToast(
-                                                  msg:
-                                                      'Forgotten password! button pressed',
-                                                );
-                                              },
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
                                             text: 'Create a new Account',
                                             style: const TextStyle(
                                               color: Colors.white,
@@ -237,9 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
                                         HapticFeedback.lightImpact();
-                                        Fluttertoast.showToast(
-                                          msg: 'Sign-In button pressed',
-                                        );
+
                                         if (formkey.currentState!.validate()) {}
 
                                         messageEmail = '/';
