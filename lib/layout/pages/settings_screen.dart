@@ -29,130 +29,116 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          SizedBox(
-            height: size.height,
-            child: Image.asset(
-              'assets/images/settings.jpg',
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-          Center(
-            child: Expanded(
-                flex: 4,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaY: 25, sigmaX: 25),
-                    child: SizedBox(
-                      width: size.width * .8,
-                      height: size.height * .5,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(),
-                              ),
+      body: Center(
+        child: Expanded(
+            flex: 4,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaY: 25, sigmaX: 25),
+                child: SizedBox(
+                  width: size.width * .8,
+                  height: size.height * .5,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(),
+                          ),
 
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: primaryColor),
-                                child: TextButton(
-                                  onPressed: () {
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: primaryColor),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChangePasswordScreen()));
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Change Password',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: primaryColor),
+                            child: TextButton(
+                              onPressed: () {
+                                FirebaseAuth.instance.signOut().then((value) =>
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const ChangePasswordScreen()),
-                                        (route) => false);
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'Change Password',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30),
-                                    ),
-                                  ),
+                                                const LoginPage()),
+                                        (route) => false));
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text(
+                                  'log out',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: primaryColor),
-                                child: TextButton(
-                                  onPressed: () {
-                                    FirebaseAuth.instance.signOut().then(
-                                        (value) => Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const LoginPage()),
-                                                (route) => false));
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Text(
-                                      'log out',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(),
-                              ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     const SizedBox(),
-                              //     IconButton(
-                              //         onPressed: () {
-                              //           navigateTo(context, const WebPage(url: 'github'));
-                              //         },
-                              //         icon: const FaIcon(
-                              //           FontAwesomeIcons.github,
-                              //           color: Colors.black,
-                              //           size: 35,
-                              //         )),
-                              //     const SizedBox(
-                              //       width: 10,
-                              //     ),
-                              //     IconButton(
-                              //         onPressed: () {
-                              //           navigateTo(context, const WebPage(url: 'linkedin'));
-                              //         },
-                              //         icon: const FaIcon(
-                              //             size: 35,
-                              //             FontAwesomeIcons.linkedin,
-                              //             color: Colors.blue)),
-                              //   ],
-                              // )
-                            ],
+                            ),
                           ),
-                        ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(),
+                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+                          //     const SizedBox(),
+                          //     IconButton(
+                          //         onPressed: () {
+                          //           navigateTo(context, const WebPage(url: 'github'));
+                          //         },
+                          //         icon: const FaIcon(
+                          //           FontAwesomeIcons.github,
+                          //           color: Colors.black,
+                          //           size: 35,
+                          //         )),
+                          //     const SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     IconButton(
+                          //         onPressed: () {
+                          //           navigateTo(context, const WebPage(url: 'linkedin'));
+                          //         },
+                          //         icon: const FaIcon(
+                          //             size: 35,
+                          //             FontAwesomeIcons.linkedin,
+                          //             color: Colors.blue)),
+                          //   ],
+                          // )
+                        ],
                       ),
                     ),
                   ),
-                )),
-          )
-        ],
+                ),
+              ),
+            )),
       ),
       //  Column(
       //   mainAxisAlignment: MainAxisAlignment.center,
