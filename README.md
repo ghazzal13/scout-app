@@ -13,7 +13,9 @@ and, We used Firestore DataBase as a backend to save Players' data, After you si
 Forward, Midfielder and Definsive).
 
 
+<p align="center">
 <img src="https://user-images.githubusercontent.com/52837541/207310266-c370caa7-d3a8-45ef-9524-b26fb172dca4.jpg" width="300">
+</p> 
  
 In any Position we render the Players in a List of Cards and when you click on any Card the Player Details Page will open.
 Also, you can filter the players about their age or nationalities or base foot.
