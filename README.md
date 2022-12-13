@@ -17,7 +17,9 @@ Forward, Midfielder and Definsive).
  
 In any Position we render the Players in a List of Cards and when you click on any Card the Player Details Page will open
 
-
+<p float="left">
 <img src="https://user-images.githubusercontent.com/52837541/207311414-199a224f-fb95-4689-886a-43cd7c7cc629.jpg" width="300">
 <img src="https://user-images.githubusercontent.com/52837541/207311502-3751f451-243d-43c2-8c7f-f494ef483869.jpg" width="300">
+</p>
+
  
