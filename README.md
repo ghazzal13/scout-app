@@ -2,9 +2,11 @@ This app is used to categorize local African players to help the scouts to have 
 
 First, we use firebase in authentication by email and google sign-in
 
+<p float="left">
 <img src="https://user-images.githubusercontent.com/52837541/207308368-62456741-f0c4-45f1-b41e-f26943dae0e2.jpg" width="300">
-
 <img src="https://user-images.githubusercontent.com/52837541/207308403-8a9b9ac5-77d9-4264-8d2d-e18a53764253.jpg" width="300">
+</p>
+
 
  
 and, We used Firestore DataBase as a backend to save Players' data, After you sign-in into the App you see that we split the players into three positions(
