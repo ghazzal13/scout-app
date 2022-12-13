@@ -2,6 +2,9 @@ This app is used to categorize local African players to help the scouts to have 
 
 First, we use firebase in authentication by email and google sign-in
 
+<img src="https://user-images.githubusercontent.com/52837541/207308368-62456741-f0c4-45f1-b41e-f26943dae0e2.jpg" width="100" height="300">
+
+<img src="https://user-images.githubusercontent.com/52837541/207308368-62456741-f0c4-45f1-b41e-f26943dae0e2.jpg" width="100">
 
 ![Screenshot_2022-12-09-17-55-24-65_2460e2adeece7908d637ad7c65c7b95b](https://user-images.githubusercontent.com/52837541/207308368-62456741-f0c4-45f1-b41e-f26943dae0e2.jpg | width=100)
 ![IMG_20221213_133417](https://user-images.githubusercontent.com/52837541/207308403-8a9b9ac5-77d9-4264-8d2d-e18a53764253.jpg| width=100)
