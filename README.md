@@ -15,11 +15,12 @@ Forward, Midfielder and Definsive).
 
 <img src="https://user-images.githubusercontent.com/52837541/207310266-c370caa7-d3a8-45ef-9524-b26fb172dca4.jpg" width="300">
  
-In any Position we render the Players in a List of Cards and when you click on any Card the Player Details Page will open
+In any Position we render the Players in a List of Cards and when you click on any Card the Player Details Page will open.
+Also, you can filter the players about their age or nationalities or base foot.
 
 <p float="left">
 <img src="https://user-images.githubusercontent.com/52837541/207311414-199a224f-fb95-4689-886a-43cd7c7cc629.jpg" width="300">
+ <img src="https://user-images.githubusercontent.com/52837541/207316225-fd3f405f-59cc-414e-8446-c93e0cdc6e9c.jpg" width="300">
 <img src="https://user-images.githubusercontent.com/52837541/207311502-3751f451-243d-43c2-8c7f-f494ef483869.jpg" width="300">
 </p>
-
  
